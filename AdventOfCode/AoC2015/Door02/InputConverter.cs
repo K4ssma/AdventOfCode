@@ -16,9 +16,14 @@ internal static class InputConverter
         {
             MatchCollection matches = regex.Matches(equationStrings[i]);
 
-            equations[i, 0] = int.Parse(matches[0].Groups[0].Value);
-            equations[i, 1] = int.Parse(matches[0].Groups[1].Value);
-            equations[i, 2] = int.Parse(matches[0].Groups[2].Value);
+            if (!matches[0].Success)
+            {
+                throw new FormatException($"string on line index {i} is not in the correct format");
+            }
+
+            equations[i, 0] = int.Parse(matches[0].Groups[1].Value);
+            equations[i, 1] = int.Parse(matches[0].Groups[2].Value);
+            equations[i, 2] = int.Parse(matches[0].Groups[3].Value);
         }
 
         return equations;
