@@ -2,6 +2,23 @@
 
 internal static class UserInputUtility
 {
+    /// <summary>
+    /// prints the input prompt and the available options to the console and lets him choose one of them.
+    /// continues to ask for an answer when no valid option got chosen
+    /// </summary>
+    /// <param name="options">
+    /// the available valid options to choose from
+    /// </param>
+    /// <param name="inputPrompt">
+    /// the prompt that gets printed to the console as information for the user
+    /// </param>
+    /// <returns>
+    /// <para><c>null</c> user entered in the config defined exit code</para>
+    /// <para><c>int</c> theoption from the pool the user chose</para>
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    /// 'ExitCode' entry in the config is empty
+    /// </exception>
     public static int? ReadIntChoice(int[] options, string inputPrompt)
     {
         string exitCode = Config.Instance["ExitCode"]
