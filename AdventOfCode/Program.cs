@@ -26,14 +26,10 @@ public static class Program
                 }
             }
 
-            Task? task = yearHandler.RunYear();
-
-            if (task == null)
+            if (!(await yearHandler.RunYear()))
             {
                 return;
             }
-
-            await task;
         }
     }
 }
