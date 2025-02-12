@@ -5,7 +5,7 @@ internal class DoorHandler : IDoorHandler
     public int? OpenDoor(string inputString)
     {
         int? taskNum = UserInputUtility.ReadIntChoice(
-            [1], "Please enter which task you want to run.");
+            [1, 2], "Please enter which task you want to run.");
 
         if (taskNum == null)
         {
@@ -19,6 +19,12 @@ internal class DoorHandler : IDoorHandler
             case 1:
             {
                 taskFunc = Task01.RunTask;
+                break;
+            }
+
+            case 2:
+            {
+                taskFunc = Task02.RunTask;
                 break;
             }
 
