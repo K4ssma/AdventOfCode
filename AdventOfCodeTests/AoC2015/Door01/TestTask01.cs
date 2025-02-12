@@ -1,11 +1,11 @@
-﻿namespace AdventOfCodeTests.AoC2015;
+﻿namespace AdventOfCodeTests.AoC2015.Door01;
 
 using AdventOfCode.AoC2015.Door01;
 
 [TestFixture]
-public static class TestDoor01
+public static class TestTask01
 {
-    public static IEnumerable<TestCaseData> TestCases
+    public static IEnumerable<TestCaseData> TestCasesTask01
     {
         get
         {
@@ -24,7 +24,7 @@ public static class TestDoor01
         }
     }
 
-    [TestCaseSource(nameof(TestCases))]
+    [TestCaseSource(nameof(TestCasesTask01))]
     public static int Task01_ValidCases_ShouldReturnCorrectNum(string inputString)
     {
         return Task01.RunTask(inputString);
