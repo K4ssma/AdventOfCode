@@ -9,5 +9,5 @@ internal interface IDoorHandler
     /// <para><c>false</c> user entered the in the config defined exit code</para>
     /// <para><c>true</c> the result got successfully printed in the console</para>
     /// </returns>
-    public Task<bool> OpenDoor();
+    public Task<bool> OpenDoor(string inputString);
 }
