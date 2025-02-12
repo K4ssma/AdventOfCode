@@ -13,7 +13,7 @@ internal static class Config
         {
             instance ??= new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile(@"..\appsettings.json")
+                    .AddJsonFile(@"appsettings.json")
                     .AddUserSecrets<Dummy>()
                     .Build();
 
