@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode;
 
 using System;
+using AdventOfCode.AoC2015;
 
 public static class Program
 {
@@ -9,7 +10,7 @@ public static class Program
         while (true)
         {
             int? yearNum = UserInputUtility.ReadIntChoice(
-                [], "Please enter the year of Advent of Code you would like to run");
+                [2015], "Please enter the year of Advent of Code you would like to run");
 
             if (yearNum == null)
             {
@@ -20,6 +21,12 @@ public static class Program
 
             switch (yearNum)
             {
+                case 2015:
+                {
+                    yearHandler = new Year2015Handler();
+                    break;
+                }
+
                 default:
                 {
                     throw new NotImplementedException($"year '{yearNum}' is not yet supported");
@@ -34,7 +41,7 @@ public static class Program
             }
 
             Console.WriteLine($"\r\nThe result is:");
-            Console.WriteLine(result.Value);
+            Console.WriteLine($"{result.Value}\r\n");
         }
     }
 }
