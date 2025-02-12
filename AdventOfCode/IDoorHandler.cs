@@ -3,11 +3,11 @@
 internal interface IDoorHandler
 {
     /// <summary>
-    /// lets the user choose a task, runs the corresponding solution and outputs the result in the console
+    /// lets the user choose a task, runs the corresponding solution
     /// </summary>
     /// <returns>
-    /// <para><c>false</c> user entered the in the config defined exit code</para>
-    /// <para><c>true</c> the result got successfully printed in the console</para>
+    /// <para><c>null</c> user entered the in the config defined exit code</para>
+    /// <para><c>int</c> the result of the chosen solution</para>
     /// </returns>
-    public Task<bool> OpenDoor(string inputString);
+    public int? OpenDoor(string inputString);
 }

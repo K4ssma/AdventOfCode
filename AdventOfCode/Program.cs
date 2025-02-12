@@ -26,10 +26,15 @@ public static class Program
                 }
             }
 
-            if (!(await yearHandler.RunYear()))
+            int? result = await yearHandler.RunYear();
+
+            if (!result.HasValue)
             {
                 return;
             }
+
+            Console.WriteLine($"\r\nThe result is:");
+            Console.WriteLine(result.Value);
         }
     }
 }
