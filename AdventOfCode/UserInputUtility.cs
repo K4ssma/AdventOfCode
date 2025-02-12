@@ -21,7 +21,7 @@ internal static class UserInputUtility
     /// </exception>
     public static int? ReadIntChoice(int[] options, string inputPrompt)
     {
-        string exitCode = Config.Instance["ExitCode"]
+        string exitCode = Config.Instance["AppSettings:ExitCode"]
             ?? throw new ArgumentException("'ExitCode' entry in the config is empty");
 
         while (true)

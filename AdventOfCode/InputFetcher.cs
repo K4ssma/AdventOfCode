@@ -24,7 +24,7 @@ internal static class InputFetcher
         string sessionCookie = Config.Instance["SessionCookie"]
             ?? throw new ArgumentException("'SessionCookie' entry in the config is empty");
 
-        string url = Config.Instance["AdventOfCodeUrl"]
+        string url = Config.Instance["AppSettings:AdventOfCodeUrl"]
             ?? throw new ArgumentException("'AdventOfCodeUrl' entry in the config is empty");
 
         using HttpClient client = new();
