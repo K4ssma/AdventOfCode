@@ -1,6 +1,8 @@
 ﻿namespace AdventOfCode;
 
+using Microsoft.Extensions.Configuration;
+
 internal interface IYearHandler
 {
-    public Task<bool> OpenDoor(string sessionCookie);
+    public Task<bool> RunYear();
 }

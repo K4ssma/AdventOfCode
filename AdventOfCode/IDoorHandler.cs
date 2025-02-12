@@ -2,5 +2,5 @@
 
 internal interface IDoorHandler
 {
-    public Task<int> OpenDoor(string sessionCookie);
+    public Task<int> OpenDoor();
 }

@@ -2,8 +2,11 @@
 
 internal static class UserInputUtility
 {
-    public static int? ReadIntChoice(int[] options, string inputPrompt, string exitCode)
+    public static int? ReadIntChoice(int[] options, string inputPrompt)
     {
+        string exitCode = Config.Instance["ExitCode"]
+            ?? throw new ArgumentException("'ExitCode' entry in the config is empty");
+
         while (true)
         {
             Console.WriteLine(inputPrompt);
