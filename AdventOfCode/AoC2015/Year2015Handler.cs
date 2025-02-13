@@ -1,11 +1,10 @@
 ﻿namespace AdventOfCode.AoC2015;
 
 using System.Threading.Tasks;
-using AdventOfCode.AoC2015.Door01;
-using AdventOfCode.AoC2015.Door02;
 
 using DoorHandler01 = AdventOfCode.AoC2015.Door01.DoorHandler;
 using DoorHandler02 = AdventOfCode.AoC2015.Door02.DoorHandler;
+using DoorHandler03 = AdventOfCode.AoC2015.Door03.DoorHandler;
 
 public class Year2015Handler : IYearHandler
 {
@@ -32,6 +31,12 @@ public class Year2015Handler : IYearHandler
             case 2:
             {
                 doorHandler = new DoorHandler02();
+                break;
+            }
+
+            case 3:
+            {
+                doorHandler = new DoorHandler03();
                 break;
             }
 
