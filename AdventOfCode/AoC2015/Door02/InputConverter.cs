@@ -6,7 +6,7 @@ internal static class InputConverter
 {
     public static int[,] Convert(string inputString)
     {
-        string[] equationStrings = inputString.Split("\r\n");
+        string[] equationStrings = inputString.Split("\n");
 
         int[,] equations = new int[equationStrings.Length, 3];
 
@@ -14,6 +14,11 @@ internal static class InputConverter
 
         for (int i = 0; i < equationStrings.Length; i++)
         {
+            if (equationStrings[i] == string.Empty)
+            {
+                continue;
+            }
+
             MatchCollection matches = regex.Matches(equationStrings[i]);
 
             if (!matches[0].Success)
