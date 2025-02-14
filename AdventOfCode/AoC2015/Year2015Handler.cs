@@ -6,13 +6,14 @@ using DoorHandler01 = AdventOfCode.AoC2015.Door01.DoorHandler;
 using DoorHandler02 = AdventOfCode.AoC2015.Door02.DoorHandler;
 using DoorHandler03 = AdventOfCode.AoC2015.Door03.DoorHandler;
 using DoorHandler04 = AdventOfCode.AoC2015.Door04.DoorHandler;
+using DoorHandler05 = AdventOfCode.AoC2015.Door05.DoorHandler;
 
 public class Year2015Handler : IYearHandler
 {
     public async Task<int?> RunYear()
     {
         int? doorNum = UserInputUtility.ReadIntChoice(
-            [1, 2, 3, 4], "Please enter the number of the day of the task you want to run");
+            [1, 2, 3, 4, 5], "Please enter the number of the day of the task you want to run");
 
         if (doorNum == null)
         {
@@ -44,6 +45,12 @@ public class Year2015Handler : IYearHandler
             case 4:
             {
                 doorHandler = new DoorHandler04();
+                break;
+            }
+
+            case 5:
+            {
+                doorHandler = new DoorHandler05();
                 break;
             }
 
