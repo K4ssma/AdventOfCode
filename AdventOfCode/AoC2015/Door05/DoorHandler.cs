@@ -12,7 +12,7 @@ internal class DoorHandler : IDoorHandler
             return null;
         }
 
-        Func<string, int> taskFunc;
+        Func<string[], int> taskFunc;
 
         switch (taskNum)
         {
@@ -22,6 +22,6 @@ internal class DoorHandler : IDoorHandler
             }
         }
 
-        return taskFunc(inputString);
+        return taskFunc(inputString.Split("\n"));
     }
 }
