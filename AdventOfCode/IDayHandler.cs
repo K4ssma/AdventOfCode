@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode;
 
-public interface IDoorHandler
+public interface IDayHandler
 {
     /// <summary>
     /// the number of the solved task and it's corresponding solving function

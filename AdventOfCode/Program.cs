@@ -32,20 +32,20 @@ public static class Program
 
             IYearHandler yearHandler = AvailableYears[yearNum.Value];
 
-            int? doorNum = ReadIntChoice(
-                [.. yearHandler.AvailableDoors.Keys],
+            int? dayNum = ReadIntChoice(
+                [.. yearHandler.AvailableDays.Keys],
                 "Please enter the number of the day you would like to run",
                 exitCode);
 
-            if (doorNum == null)
+            if (dayNum == null)
             {
                 return;
             }
 
-            IDoorHandler doorHandler = yearHandler.AvailableDoors[doorNum.Value];
+            IDayHandler dayHandler = yearHandler.AvailableDays[dayNum.Value];
 
             int? taskNum = ReadIntChoice(
-                [.. doorHandler.AvailableTasks.Keys],
+                [.. dayHandler.AvailableTasks.Keys],
                 "Please enter the number of the task you would like to run",
                 exitCode);
 
@@ -63,9 +63,9 @@ public static class Program
             using HttpClient client = new();
             client.DefaultRequestHeaders.Add("Cookie", $"session={sessionCookie}");
 
-            string inputString = await client.GetStringAsync(url + $"/{yearNum}/day/{doorNum}/input");
+            string inputString = await client.GetStringAsync(url + $"/{yearNum}/day/{dayNum}/input");
 
-            int result = doorHandler.AvailableTasks[taskNum.Value](inputString);
+            int result = dayHandler.AvailableTasks[taskNum.Value](inputString);
 
             Console.WriteLine($"\r\nThe result is:");
             Console.WriteLine($"{result}\r\n");
