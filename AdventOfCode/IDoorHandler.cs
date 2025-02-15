@@ -1,13 +1,9 @@
 ﻿namespace AdventOfCode;
 
-internal interface IDoorHandler
+public interface IDoorHandler
 {
     /// <summary>
-    /// lets the user choose a task, runs the corresponding solution and outputs the result in the console
+    /// the number of the solved task and it's corresponding solving function
     /// </summary>
-    /// <returns>
-    /// <para><c>false</c> user entered the in the config defined exit code</para>
-    /// <para><c>true</c> the result got successfully printed in the console</para>
-    /// </returns>
-    public Task<bool> OpenDoor();
+    public Dictionary<int, Func<string, int>> AvailableTasks { get; }
 }
