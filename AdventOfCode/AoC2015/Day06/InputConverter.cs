@@ -10,6 +10,7 @@ internal static class InputConverter
 
         return inputString
             .Split("\n")
+            .Where((string str) => str != string.Empty)
             .Select((string instructionString) =>
             {
                 InstructionType type;
