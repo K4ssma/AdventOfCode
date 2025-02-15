@@ -15,7 +15,7 @@ public static class Program
     {
         IConfigurationRoot config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettinfs.json")
+            .AddJsonFile("appsettings.json")
             .AddUserSecrets<Dummy>()
             .Build();
 
