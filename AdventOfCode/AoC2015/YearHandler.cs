@@ -8,6 +8,7 @@ using DayHandler03 = AdventOfCode.AoC2015.Day03.DayHandler;
 using DayHandler04 = AdventOfCode.AoC2015.Day04.DayHandler;
 using DayHandler05 = AdventOfCode.AoC2015.Day05.DayHandler;
 using DayHandler06 = AdventOfCode.AoC2015.Day06.DayHandler;
+using DayHandler07 = AdventOfCode.AoC2015.Day07.DayHandler;
 
 public class YearHandler : IYearHandler
 {
@@ -19,5 +20,6 @@ public class YearHandler : IYearHandler
         { 4, new DayHandler04() },
         { 5, new DayHandler05() },
         { 6, new DayHandler06() },
+        { 7, new DayHandler07() },
     };
 }
