@@ -19,7 +19,7 @@ public static class TestInputConverter
             yield return new TestCaseData("toggle 0,0 through 999,0")
                 .Returns((object)(new (InstructionType, Vector2Int, Vector2Int)[]
                 {
-                    (InstructionType.Toogle, new(0, 0), new(999, 0)),
+                    (InstructionType.Toggle, new(0, 0), new(999, 0)),
                 }))
                 .SetName("Test02");
 

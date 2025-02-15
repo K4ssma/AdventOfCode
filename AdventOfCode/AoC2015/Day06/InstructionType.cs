@@ -4,5 +4,5 @@ public enum InstructionType
 {
     On = 0,
     Off,
-    Toogle,
+    Toggle,
 }

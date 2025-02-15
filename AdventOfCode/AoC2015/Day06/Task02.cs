@@ -39,7 +39,7 @@ internal static class Task02
                             break;
                         }
 
-                        case InstructionType.Toogle:
+                        case InstructionType.Toggle:
                         {
                             totalBrightness += 2;
                             grid[x, y] += 2;

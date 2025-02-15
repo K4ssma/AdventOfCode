@@ -25,7 +25,7 @@ internal static class InputConverter
                 }
                 else if (instructionString.StartsWith("toggle"))
                 {
-                    type = InstructionType.Toogle;
+                    type = InstructionType.Toggle;
                 }
                 else
                 {

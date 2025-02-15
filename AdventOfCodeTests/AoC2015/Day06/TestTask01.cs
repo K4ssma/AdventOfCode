@@ -18,7 +18,7 @@ public static class TestTask01
 
             yield return new TestCaseData((object)(new (InstructionType Type, Vector2Int PosOne, Vector2Int PosTwo)[]
             {
-                (InstructionType.Toogle, new(0, 0), new(999, 0)),
+                (InstructionType.Toggle, new(0, 0), new(999, 0)),
             }))
                 .Returns(1_000)
                 .SetName("Test02");

@@ -38,7 +38,7 @@ internal static class Task01
                             break;
                         }
 
-                        case InstructionType.Toogle:
+                        case InstructionType.Toggle:
                         {
                             if (grid[x, y])
                             {
