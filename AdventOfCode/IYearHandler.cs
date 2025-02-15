@@ -3,11 +3,8 @@
 internal interface IYearHandler
 {
     /// <summary>
-    /// lets the user choose a day of whichs task he wants to run the solution
+    /// <para>contains all solved days of this year</para>
+    /// <para>the <c>Values</c> are the DayHandlers for the day, that is defined by the <c>Key</c></para>
     /// </summary>
-    /// <returns>
-    /// <para><c>null</c> the user entered the in the config defined exit code</para>
-    /// <para><c>int</c> the result of the chosen solution</para>
-    /// </returns>
-    public Task<int?> RunYear();
+    public Dictionary<int, IDayHandler> AvailableDays { get; }
 }
