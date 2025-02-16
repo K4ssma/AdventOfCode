@@ -5,7 +5,7 @@ using AdventOfCode.AoC2015.Day07.Logics.Values;
 
 internal static class InputConverter
 {
-    public static IGate[] Convert(string inputString)
+    public static Dictionary<string, IGate> Convert(string inputString)
     {
         return inputString
             .Split("\r\n")
@@ -66,7 +66,7 @@ internal static class InputConverter
                     GetValue(gateParts[0]),
                     outputWireId);
             })
-            .ToArray();
+            .ToDictionary((IGate gate) => gate.OutputWireId);
     }
 
     private static IValue GetValue(string str)

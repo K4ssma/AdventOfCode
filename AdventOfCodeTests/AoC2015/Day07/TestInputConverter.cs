@@ -22,82 +22,79 @@ public static class TestInputConverter
             "NOT y -> i";
 
         // act
-        IGate[] result = InputConverter.Convert(inputString);
+        Dictionary<string, IGate> result = InputConverter.Convert(inputString);
 
         // assert
-        Assert.That(result, Has.Length.EqualTo(8));
-
         Assert.Multiple(() =>
         {
-            Assert.That(result[0].OutputWireId, Is.EqualTo("x"));
-            Assert.That(result[0].Type, Is.EqualTo(GateType.Constant));
+            Assert.That(result, Has.Count.EqualTo(8));
 
-            Assert.That(result[1].OutputWireId, Is.EqualTo("y"));
-            Assert.That(result[1].Type, Is.EqualTo(GateType.Constant));
-
-            Assert.That(result[2].OutputWireId, Is.EqualTo("d"));
-            Assert.That(result[2].Type, Is.EqualTo(GateType.And));
-
-            Assert.That(result[3].OutputWireId, Is.EqualTo("e"));
-            Assert.That(result[3].Type, Is.EqualTo(GateType.Or));
-
-            Assert.That(result[4].OutputWireId, Is.EqualTo("f"));
-            Assert.That(result[4].Type, Is.EqualTo(GateType.LShift));
-
-            Assert.That(result[5].OutputWireId, Is.EqualTo("g"));
-            Assert.That(result[5].Type, Is.EqualTo(GateType.RShift));
-
-            Assert.That(result[6].OutputWireId, Is.EqualTo("h"));
-            Assert.That(result[6].Type, Is.EqualTo(GateType.Not));
-
-            Assert.That(result[7].OutputWireId, Is.EqualTo("i"));
-            Assert.That(result[7].Type, Is.EqualTo(GateType.Not));
+            Assert.That(result.ContainsKey("x"));
+            Assert.That(result.ContainsKey("y"));
+            Assert.That(result.ContainsKey("d"));
+            Assert.That(result.ContainsKey("e"));
+            Assert.That(result.ContainsKey("f"));
+            Assert.That(result.ContainsKey("g"));
+            Assert.That(result.ContainsKey("h"));
+            Assert.That(result.ContainsKey("i"));
         });
 
         Assert.Multiple(() =>
         {
-            Assert.That(((ConstantGate)result[0]).Value.Type, Is.EqualTo(ValueType.Constant));
-
-            Assert.That(((ConstantGate)result[1]).Value.Type, Is.EqualTo(ValueType.Constant));
-
-            Assert.That(((AndGate)result[2]).ValueOne.Type, Is.EqualTo(ValueType.Wire));
-            Assert.That(((AndGate)result[2]).ValueTwo.Type, Is.EqualTo(ValueType.Wire));
-
-            Assert.That(((OrGate)result[3]).ValueOne.Type, Is.EqualTo(ValueType.Wire));
-            Assert.That(((OrGate)result[3]).ValueTwo.Type, Is.EqualTo(ValueType.Wire));
-
-            Assert.That(((LShiftGate)result[4]).Value.Type, Is.EqualTo(ValueType.Wire));
-            Assert.That(((LShiftGate)result[4]).ShiftAmount.Type, Is.EqualTo(ValueType.Constant));
-
-            Assert.That(((RShiftGate)result[5]).Value.Type, Is.EqualTo(ValueType.Wire));
-            Assert.That(((RShiftGate)result[5]).ShiftAmount.Type, Is.EqualTo(ValueType.Constant));
-
-            Assert.That(((NotGate)result[6]).Value.Type, Is.EqualTo(ValueType.Wire));
-
-            Assert.That(((NotGate)result[7]).Value.Type, Is.EqualTo(ValueType.Wire));
+            Assert.That(result["x"], Is.TypeOf(typeof(ConstantGate)));
+            Assert.That(result["y"], Is.TypeOf(typeof(ConstantGate)));
+            Assert.That(result["d"], Is.TypeOf(typeof(AndGate)));
+            Assert.That(result["e"], Is.TypeOf(typeof(OrGate)));
+            Assert.That(result["f"], Is.TypeOf(typeof(LShiftGate)));
+            Assert.That(result["g"], Is.TypeOf(typeof(RShiftGate)));
+            Assert.That(result["h"], Is.TypeOf(typeof(NotGate)));
+            Assert.That(result["i"], Is.TypeOf(typeof(NotGate)));
         });
 
         Assert.Multiple(() =>
         {
-            Assert.That(((ConstantValue)((ConstantGate)result[0]).Value).Value, Is.EqualTo(123));
+            Assert.That(((ConstantGate)result["x"]).Value, Is.TypeOf(typeof(ConstantValue)));
 
-            Assert.That(((ConstantValue)((ConstantGate)result[1]).Value).Value, Is.EqualTo(456));
+            Assert.That(((ConstantGate)result["y"]).Value, Is.TypeOf(typeof(ConstantValue)));
 
-            Assert.That(((WireValue)((AndGate)result[2]).ValueOne).WireId, Is.EqualTo("x"));
-            Assert.That(((WireValue)((AndGate)result[2]).ValueTwo).WireId, Is.EqualTo("y"));
+            Assert.That(((AndGate)result["d"]).ValueOne, Is.TypeOf(typeof(WireValue)));
+            Assert.That(((AndGate)result["d"]).ValueTwo, Is.TypeOf(typeof(WireValue)));
 
-            Assert.That(((WireValue)((OrGate)result[3]).ValueOne).WireId, Is.EqualTo("x"));
-            Assert.That(((WireValue)((OrGate)result[3]).ValueTwo).WireId, Is.EqualTo("y"));
+            Assert.That(((OrGate)result["e"]).ValueOne, Is.TypeOf(typeof(WireValue)));
+            Assert.That(((OrGate)result["e"]).ValueTwo, Is.TypeOf(typeof(WireValue)));
 
-            Assert.That(((WireValue)((LShiftGate)result[4]).Value).WireId, Is.EqualTo("x"));
-            Assert.That(((ConstantValue)((LShiftGate)result[4]).ShiftAmount).Value, Is.EqualTo(2));
+            Assert.That(((LShiftGate)result["f"]).Value, Is.TypeOf(typeof(WireValue)));
+            Assert.That(((LShiftGate)result["f"]).ShiftAmount, Is.TypeOf(typeof(ConstantValue)));
 
-            Assert.That(((WireValue)((RShiftGate)result[5]).Value).WireId, Is.EqualTo("y"));
-            Assert.That(((ConstantValue)((RShiftGate)result[5]).ShiftAmount).Value, Is.EqualTo(2));
+            Assert.That(((RShiftGate)result["g"]).Value, Is.TypeOf(typeof(WireValue)));
+            Assert.That(((RShiftGate)result["g"]).ShiftAmount, Is.TypeOf(typeof(ConstantValue)));
 
-            Assert.That(((WireValue)((NotGate)result[6]).Value).WireId, Is.EqualTo("x"));
+            Assert.That(((NotGate)result["h"]).Value, Is.TypeOf(typeof(WireValue)));
 
-            Assert.That(((WireValue)((NotGate)result[7]).Value).WireId, Is.EqualTo("y"));
+            Assert.That(((NotGate)result["i"]).Value, Is.TypeOf(typeof(WireValue)));
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(((ConstantValue)((ConstantGate)result["x"]).Value).Value, Is.EqualTo(123));
+
+            Assert.That(((ConstantValue)((ConstantGate)result["y"]).Value).Value, Is.EqualTo(456));
+
+            Assert.That(((WireValue)((AndGate)result["d"]).ValueOne).WireId, Is.EqualTo("x"));
+            Assert.That(((WireValue)((AndGate)result["d"]).ValueTwo).WireId, Is.EqualTo("y"));
+
+            Assert.That(((WireValue)((OrGate)result["e"]).ValueOne).WireId, Is.EqualTo("x"));
+            Assert.That(((WireValue)((OrGate)result["e"]).ValueTwo).WireId, Is.EqualTo("y"));
+
+            Assert.That(((WireValue)((LShiftGate)result["f"]).Value).WireId, Is.EqualTo("x"));
+            Assert.That(((ConstantValue)((LShiftGate)result["f"]).ShiftAmount).Value, Is.EqualTo(2));
+
+            Assert.That(((WireValue)((RShiftGate)result["g"]).Value).WireId, Is.EqualTo("y"));
+            Assert.That(((ConstantValue)((RShiftGate)result["g"]).ShiftAmount).Value, Is.EqualTo(2));
+
+            Assert.That(((WireValue)((NotGate)result["h"]).Value).WireId, Is.EqualTo("x"));
+
+            Assert.That(((WireValue)((NotGate)result["i"]).Value).WireId, Is.EqualTo("y"));
         });
     }
 }

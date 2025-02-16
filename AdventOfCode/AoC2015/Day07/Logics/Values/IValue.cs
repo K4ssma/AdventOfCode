@@ -2,5 +2,4 @@
 
 public interface IValue
 {
-    public ValueType Type { get; }
 }
