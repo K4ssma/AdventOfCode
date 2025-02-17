@@ -8,7 +8,7 @@ internal static class InputConverter
     public static Dictionary<string, IGate> Convert(string inputString)
     {
         return inputString
-            .Split("\r\n")
+            .Split("\n")
             .Where((string str) => str != string.Empty)
             .Select<string, IGate>((string str) =>
             {
