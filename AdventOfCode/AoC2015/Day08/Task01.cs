@@ -8,7 +8,7 @@ internal static class Task01
 
     private static readonly (Regex Regex, int Length)[] EscapeablePatterns =
     {
-        (new Regex(@"x\d\d", RegexOptions.Compiled), 3),
+        (new Regex(@"x[a-fA-F0-9]{2}", RegexOptions.Compiled), 3),
     };
 
     public static int RunTask(string inputString)
