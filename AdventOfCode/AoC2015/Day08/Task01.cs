@@ -82,7 +82,7 @@ internal static class Task01
                     if (!foundPattern)
                     {
                         throw new InvalidOperationException(
-                            $"ther was no valid char or pattern found to be escaped in '{str}'");
+                            $"there was no valid char or pattern found to be escaped in '{str}'");
                     }
                 }
 
