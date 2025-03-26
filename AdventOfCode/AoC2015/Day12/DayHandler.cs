@@ -8,5 +8,6 @@ internal class DayHandler : IDayHandler
     public Dictionary<int, Func<string, int>> AvailableTasks => new()
     {
         { 1, Task01.RunTask },
+        { 2, Task02.RunTask },
     };
 }
