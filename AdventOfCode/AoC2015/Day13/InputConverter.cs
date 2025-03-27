@@ -13,9 +13,9 @@ internal static class InputConverter
             @"^(?<source>\w+)\swould\s(?<operator>gain|lose)\s(?<amount>\d+)\shappiness\sunits\sby\ssitting\snext\sto\s(?<target>\w+)\.$",
             RegexOptions.Compiled);
 
-        foreach (string line in inputString.Trim().Split("\r\n"))
+        foreach (string line in inputString.Trim().Split('\n'))
         {
-            Match match = regex.Match(line);
+            Match match = regex.Match(line.Trim());
 
             if (!match.Success)
             {
