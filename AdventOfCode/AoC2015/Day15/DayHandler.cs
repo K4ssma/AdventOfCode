@@ -7,5 +7,6 @@ internal class DayHandler : IDayHandler
 {
     public Dictionary<int, Func<string, int>> AvailableTasks => new()
     {
+        { 1, (string inputString) => (int)Task01.RunTask(InputConverter.Convert(inputString).ToArray()) },
     };
 }
