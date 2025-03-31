@@ -19,8 +19,15 @@ internal class DayHandler : IDayHandler
         { "perfumes", 1 },
     };
 
+    private static (Func<byte, byte, bool> CompareFunc, HashSet<string> TargetedProps)[] RuleSet =>
+    [
+        ((byte targetValue, byte analysisValue) => targetValue < analysisValue, ["cats", "trees"]),
+        ((byte targetValue, byte analysisValue) => targetValue > analysisValue, ["pomeranians", "goldfish"]),
+    ];
+
     public Dictionary<int, Func<string, int>> AvailableTasks => new()
     {
         { 1, (string inputString) => (int)Task01.RunTask(TargetAunt, InputConverter.Convert(inputString))! },
+        { 2, (string inputString) => (int)Task02.RunTask(TargetAunt, InputConverter.Convert(inputString), RuleSet)! },
     };
 }
