@@ -1,0 +1,10 @@
+﻿{
+    "settings": {
+        "maintainabilityRules": {
+            "topLevelTypes": [
+                "class",
+                "interface"
+            ]
+        }
+    }
+}
