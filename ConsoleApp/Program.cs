@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp;
+﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
 internal static class Program
 {
