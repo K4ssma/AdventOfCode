@@ -10,18 +10,34 @@ internal sealed class AocDayMock : IAocDay
     /// <inheritdoc/>
     public static byte Day => 0;
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Simulates the computation of an advent of code result by letting the thread sleep for 5 seconds.
+    /// </summary>
+    /// <param name="input">
+    ///     "<paramref name="input"/>" is not used in this method. Provide any string you want.
+    /// </param>
+    /// <returns>
+    ///     The string "Dummy result for part 01".
+    /// </returns>
     public static string SolvePart01(string input)
     {
-        Thread.Sleep(1000);
+        Thread.Sleep(5000);
 
         return "Dummy result for part 01";
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Simulates the computation of an advent of code result by letting the thread sleep for 5 seconds.
+    /// </summary>
+    /// <param name="input">
+    ///     "<paramref name="input"/>" is not used in this method. Provide any string you want.
+    /// </param>
+    /// <returns>
+    ///     The string "Dummy result for part 02".
+    /// </returns>
     public static string SolvePart02(string input)
     {
-        Thread.Sleep(1000);
+        Thread.Sleep(5000);
 
         return "Dummy result for part 02";
     }
