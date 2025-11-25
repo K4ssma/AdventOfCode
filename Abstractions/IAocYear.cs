@@ -11,7 +11,8 @@ public interface IAocYear
     public static abstract uint Year { get; }
 
     /// <summary>
-    ///     An array of each Advent of Code day. The index represents the corresponding day starting at day 1 = index 0.
+    ///     Gets an array of each Advent of Code day.
+    ///     The index represents the corresponding day starting at day 1 = index 0.
     /// </summary>
     public static abstract IAocDay?[] Days { get; }
 }
