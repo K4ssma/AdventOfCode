@@ -1,11 +1,11 @@
-﻿namespace Kassma.AdventOfCode.ConsoleApp;
+﻿namespace Kassma.AdventOfCode.ConsoleApp.Mocks;
 
 using Kassma.AdventOfCode.Abstractions;
 
 /// <summary>
 ///     Mockup implementation of the <see cref="IAocDay"/>-interface for providing dummy data.
 /// </summary>
-internal sealed class AocDayMock : IAocDay
+internal sealed class AocDay : IAocDay
 {
     /// <summary>
     ///     Simulates the computation of an advent of code result by letting the thread sleep for 5 seconds.
