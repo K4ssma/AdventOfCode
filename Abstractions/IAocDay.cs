@@ -1,4 +1,4 @@
-﻿namespace Kassma.AdventOfCode;
+﻿namespace Kassma.AdventOfCode.Abstractions;
 
 /// <summary>
 ///     Interface which represents a single day in the Advent of Code calender.
