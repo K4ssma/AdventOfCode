@@ -7,9 +7,6 @@ using Kassma.AdventOfCode.Abstractions;
 /// </summary>
 internal sealed class AocDayMock : IAocDay
 {
-    /// <inheritdoc/>
-    public static byte Day => 0;
-
     /// <summary>
     ///     Simulates the computation of an advent of code result by letting the thread sleep for 5 seconds.
     /// </summary>
