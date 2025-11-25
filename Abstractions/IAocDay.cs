@@ -8,7 +8,7 @@ public interface IAocDay
     /// <summary>
     ///     Gets the number of the day this instance solves.
     /// </summary>
-    public static byte Day { get; }
+    public static abstract byte Day { get; }
 
     /// <summary>
     ///     Method for solving the first part of the day this instance represents.
