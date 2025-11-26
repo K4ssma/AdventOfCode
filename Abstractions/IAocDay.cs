@@ -14,7 +14,7 @@ public interface IAocDay
     /// <returns>
     ///     A string representing the solution of this challenge part.
     /// </returns>
-    public static abstract string SolvePart01(string input);
+    public string SolvePart01(string input);
 
     /// <summary>
     ///     Method for solving the second part of the day this instance represents.
@@ -25,5 +25,5 @@ public interface IAocDay
     /// <returns>
     ///     A string representing the solution of this challenge part.
     /// </returns>
-    public static abstract string SolvePart02(string input);
+    public string SolvePart02(string input);
 }

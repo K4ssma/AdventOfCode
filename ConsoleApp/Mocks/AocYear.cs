@@ -10,10 +10,10 @@ internal sealed class AocYear : IAocYear
     /// <summary>
     ///     Gets 0.
     /// </summary>
-    public static uint Year => 0;
+    public uint Year => 0;
 
     /// <summary>
     ///     Gets an array only containing the <see cref="AocDay"/> at index 0.
     /// </summary>
-    public static IAocDay?[] Days => [new AocDay()];
+    public IAocDay?[] Days => [new AocDay()];
 }

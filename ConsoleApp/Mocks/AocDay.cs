@@ -16,7 +16,7 @@ internal sealed class AocDay : IAocDay
     /// <returns>
     ///     The string "Dummy result for part 01".
     /// </returns>
-    public static string SolvePart01(string input)
+    public string SolvePart01(string input)
     {
         Thread.Sleep(5000);
 
@@ -32,7 +32,7 @@ internal sealed class AocDay : IAocDay
     /// <returns>
     ///     The string "Dummy result for part 02".
     /// </returns>
-    public static string SolvePart02(string input)
+    public string SolvePart02(string input)
     {
         Thread.Sleep(5000);
 
