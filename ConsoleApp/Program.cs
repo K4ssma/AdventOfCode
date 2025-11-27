@@ -1,5 +1,6 @@
 ﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
+using Kassma.AdventOfCode.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 /// <summary>
@@ -7,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 /// </summary>
 internal static class Program
 {
+    private static readonly Dictionary<ushort, IAocDay[]> AocYears = [];
+
     private static void Main()
     {
         var config = new ConfigurationBuilder()
@@ -20,7 +23,7 @@ internal static class Program
 
         ArgumentNullException.ThrowIfNull(uiConfig);
 
-        var app = new App(uiConfig);
+        var app = new App(uiConfig, AocYears);
 
         app.Run();
     }
