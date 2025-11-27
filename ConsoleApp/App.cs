@@ -1,6 +1,5 @@
 ﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
-using System.Text;
 using Kassma.AdventOfCode.Abstractions;
 
 /// <summary>
@@ -33,20 +32,73 @@ internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay[]> aocYear
     {
         if (this.AocYears.Count == 0)
         {
-            Console.WriteLine("\n\rIt seems like there are no solvers abailable :(");
+            Console.WriteLine("It seems like there are no solvers abailable :(");
             return;
         }
 
-        Console.WriteLine($"Note: You can stop the application at any point by entering \"{this.Config.ExitCode}\".\r\n");
-        Console.WriteLine("Please choose the year of Advent of Code which challenges you want to solve.");
-        Console.WriteLine("The following years have solvers available:");
+        var availableYearsString = this.AocYears
+            .Select((yearDictionary) => yearDictionary.Key.ToString())
+            .Aggregate((curr, next) => curr + ", " + next);
 
-        var yearStrings = this.AocYears
-            .Select((yearDictionary) => yearDictionary.Key.ToString());
+        var yearInputPrompt =
+            $"Note: You can stop the application at any point by entering \"{this.Config.ExitCode}\".\r\n\r\n"
+            + "Please choose the year of Advent of Code which challenges you want to solve.\r\n"
+            + "The following years have solvers available:\r\n"
+            + availableYearsString;
 
-        var stringBuilder = new StringBuilder();
-        stringBuilder.AppendJoin(", ", yearStrings);
+        var possibleAnswers = this.AocYears
+            .Select<KeyValuePair<ushort, IAocDay[]>, ushort?>((yearDictionary) => yearDictionary.Key)
+            .ToArray();
 
-        Console.WriteLine(stringBuilder.ToString());
+        var chosenYear = this.GetValidUserInput<ushort?>(
+            yearInputPrompt,
+            possibleAnswers,
+            (inputString) => ushort.TryParse(inputString, out var parsedInput) ? parsedInput : null);
+
+        if (chosenYear is null)
+        {
+            return;
+        }
+    }
+
+    private T? GetValidUserInput<T>(string userInputPrompt, ReadOnlySpan<T> possibleAnswers, Func<string, T?> userInputTryParser)
+    {
+        var isFirstPrompt = true;
+
+        T? parsedInput = default;
+
+        while (parsedInput is null
+            || !possibleAnswers.Contains(parsedInput))
+        {
+            Console.Clear();
+            Console.WriteLine($"Note: Enter \"{this.Config.ExitCode}\" in order to exit the application.\r\n");
+
+            if (!isFirstPrompt)
+            {
+                Console.WriteLine("Invalid input please try again.\r\n");
+            }
+
+            isFirstPrompt = false;
+
+            Console.WriteLine(userInputPrompt);
+
+            var userInput = Console.ReadLine();
+            if (userInput is null)
+            {
+                continue;
+            }
+
+            if (string.Equals(
+                    userInput.Trim(),
+                    this.Config.ExitCode.ToString(),
+                    StringComparison.InvariantCultureIgnoreCase))
+            {
+                return default;
+            }
+
+            parsedInput = userInputTryParser(userInput);
+        }
+
+        return parsedInput;
     }
 }
