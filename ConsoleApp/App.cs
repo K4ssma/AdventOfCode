@@ -11,7 +11,7 @@ using Kassma.AdventOfCode.Abstractions;
 /// <param name="aocYears">
 ///     Advent of Code challenge solvers grouped by their year and indexed by their day starting at index 0 = day 1.
 /// </param>
-internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay[]> aocYears)
+internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay?[]> aocYears)
 {
     /// <summary>
     ///     Gets the <see cref="UiConfig"/> used by this app, which determines certain behaviour of this instance.
@@ -22,7 +22,7 @@ internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay[]> aocYear
     ///     Gets the Advent of Code challenge solvers.
     ///     They are grouped by their year and indexed by their day starting at index 0 = day 1.
     /// </summary>
-    public Dictionary<ushort, IAocDay[]> AocYears { get; init; } = aocYears;
+    public Dictionary<ushort, IAocDay?[]> AocYears { get; init; } = aocYears;
 
     /// <summary>
     ///     Starts this app.
@@ -30,27 +30,30 @@ internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay[]> aocYear
     /// </summary>
     public void Run()
     {
-        if (this.AocYears.Count == 0)
+        var possibleYears = this.AocYears
+            .Where((yearDictionary) => yearDictionary.Value.Length > 0)
+            .ToDictionary();
+
+        if (possibleYears.Count == 0)
         {
             Console.WriteLine("It seems like there are no solvers abailable :(");
             return;
         }
 
-        var availableYearsString = this.AocYears
+        var availableYearsString = possibleYears
             .Select((yearDictionary) => yearDictionary.Key.ToString())
             .Aggregate((curr, next) => curr + ", " + next);
 
         var yearInputPrompt =
-            $"Note: You can stop the application at any point by entering \"{this.Config.ExitCode}\".\r\n\r\n"
-            + "Please choose the year of Advent of Code which challenges you want to solve.\r\n"
+            "Please choose the year of Advent of Code which challenges you want to solve.\r\n"
             + "The following years have solvers available:\r\n"
             + availableYearsString;
 
-        var possibleAnswers = this.AocYears
-            .Select<KeyValuePair<ushort, IAocDay[]>, ushort?>((yearDictionary) => yearDictionary.Key)
+        var possibleAnswers = possibleYears
+            .Select<KeyValuePair<ushort, IAocDay?[]>, ushort?>((yearDictionary) => yearDictionary.Key)
             .ToArray();
 
-        var chosenYear = this.GetValidUserInput<ushort?>(
+        var chosenYear = this.GetValidUserInput(
             yearInputPrompt,
             possibleAnswers,
             (inputString) => ushort.TryParse(inputString, out var parsedInput) ? parsedInput : null);
@@ -59,6 +62,32 @@ internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay[]> aocYear
         {
             return;
         }
+
+        var possibleDays = this.AocYears[chosenYear.Value]
+            .Where((aocDay) => aocDay is not null)
+            .Select((_, index) => (byte?)(index + 1))
+            .ToArray();
+
+        var availableDaysString = possibleDays
+            .Select((index) => index.ToString())
+            .Aggregate((curr, next) => curr + ", " + next);
+
+        var dayInputPrompt =
+            $"Please choose the day of Advent of Code {chosenYear.Value} you want to solve.\r\n"
+            + "The following day have solvers available:\r\n"
+            + availableDaysString;
+
+        var chosenDay = this.GetValidUserInput(
+            dayInputPrompt,
+            possibleDays,
+            (inputString) => byte.TryParse(inputString, out var parsedInput) ? parsedInput : null);
+
+        if (chosenDay is null)
+        {
+            return;
+        }
+
+        chosenDay = (byte)(chosenDay - 1);
     }
 
     private T? GetValidUserInput<T>(string userInputPrompt, ReadOnlySpan<T> possibleAnswers, Func<string, T?> userInputTryParser)
