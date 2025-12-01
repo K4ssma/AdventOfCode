@@ -6,9 +6,9 @@
 public sealed record ProgressStatus
 {
     /// <summary>
-    ///     Gets a value indicating whether this instance is part of a bigger status categorie or not.
+    ///     Gets a value indicating whether this instance is a major status step with potential substatuses or not.
     /// </summary>
-    public required bool IsSubstatus { get; init; }
+    public required bool IsHeadStatus { get; init; }
 
     /// <summary>
     ///     Gets the message which describes the current status.

@@ -1,6 +1,7 @@
 ﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
 using System.Net;
+using System.Text;
 using Kassma.AdventOfCode.Abstractions;
 
 /// <summary>
@@ -155,6 +156,92 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
             }
 
             var inputString = await response.Content.ReadAsStringAsync();
+
+            var statusUpdates = new Queue<ProgressStatus>();
+
+            var progress = new Progress<ProgressStatus>((status) =>
+            {
+                statusUpdates.Enqueue(status);
+            });
+
+            var solvingTask = Task.Run(() =>
+            {
+                return choseFirstPart.Value
+                    ? this.AocYears[chosenYear.Value][chosenDay.Value - 1]!.SolvePart01(progress, inputString)
+                    : this.AocYears[chosenYear.Value][chosenDay.Value - 1]!.SolvePart02(progress, inputString);
+            });
+
+            byte currentHeadStatus = 0;
+            byte currProgressAmount = 0;
+            byte spinnerPhase = 0;
+            var stringBuilder = new StringBuilder();
+
+            while (!solvingTask.IsCompleted || statusUpdates.Count > 0)
+            {
+                while (statusUpdates.Count > 0)
+                {
+                    var statusUpdate = statusUpdates.Dequeue();
+
+                    if (statusUpdate.IsHeadStatus)
+                    {
+                        stringBuilder.AppendLine($"[{currentHeadStatus}] {statusUpdate.StatusMessage}");
+                        currentHeadStatus++;
+                    }
+                    else
+                    {
+                        stringBuilder.AppendLine($"    - {statusUpdate.StatusMessage}");
+                    }
+
+                    currProgressAmount = statusUpdate.StatusPercent;
+                }
+
+                Console.Clear();
+                Console.Write(stringBuilder.ToString());
+                Console.WriteLine();
+
+                var progressBarBuilder = new StringBuilder("[");
+                var completedTens = currProgressAmount / 10;
+
+                for (var i = 0; i < completedTens; i++)
+                {
+                    progressBarBuilder.Append('#');
+                }
+
+                for (var i = 0; i < 10 - completedTens; i++)
+                {
+                    progressBarBuilder.Append('.');
+                }
+
+                progressBarBuilder.Append("] ");
+
+                var spinner = spinnerPhase switch
+                {
+                    0 => '|',
+                    1 => '/',
+                    2 => '-',
+                    3 => '\\',
+                    _ => 'e',
+                };
+
+                spinnerPhase = (byte)((spinnerPhase + 1) % 4);
+
+                progressBarBuilder.Append($" {spinner} {currProgressAmount.ToString().PadLeft(3)}%");
+
+                Console.WriteLine(progressBarBuilder.ToString());
+
+                Thread.Sleep(500);
+            }
+
+            Console.WriteLine("The solution is:");
+            Console.WriteLine(solvingTask.Result);
+
+            var input = Console.ReadLine();
+
+            if (input != null
+                && input.Equals(this.Config.ExitCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                return;
+            }
         }
     }
 
