@@ -14,6 +14,7 @@ internal static class Program
     {
         var config = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
+            .AddUserSecrets<App>()
             .AddJsonFile("appsettings.json", false, true)
             .Build();
 
@@ -21,9 +22,11 @@ internal static class Program
             .GetSection("UiConfig")
             .Get<UiConfig>();
 
+        var sessionCookie = config.GetSection("AdventOfCode")["SessionCookie"];
+
         ArgumentNullException.ThrowIfNull(uiConfig);
 
-        var app = new App(uiConfig, AocYears);
+        var app = new App(uiConfig, sessionCookie, AocYears);
 
         app.Run();
     }

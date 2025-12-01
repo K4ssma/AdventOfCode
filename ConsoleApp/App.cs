@@ -11,12 +11,17 @@ using Kassma.AdventOfCode.Abstractions;
 /// <param name="aocYears">
 ///     Advent of Code challenge solvers grouped by their year and indexed by their day starting at index 0 = day 1.
 /// </param>
-internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay?[]> aocYears)
+internal sealed class App(UiConfig config, string? sessionCookie, Dictionary<ushort, IAocDay?[]> aocYears)
 {
     /// <summary>
     ///     Gets the <see cref="UiConfig"/> used by this app, which determines certain behaviour of this instance.
     /// </summary>
     public UiConfig Config { get; init; } = config;
+
+    /// <summary>
+    ///     Gets the session cookie string for athentification against the advent of code website.
+    /// </summary>
+    public string? SessionCookie { get; private set; } = sessionCookie;
 
     /// <summary>
     ///     Gets the Advent of Code challenge solvers.
@@ -38,6 +43,19 @@ internal sealed class App(UiConfig config, Dictionary<ushort, IAocDay?[]> aocYea
         {
             Console.WriteLine("It seems like there are no solvers abailable :(");
             return;
+        }
+
+        if (string.IsNullOrEmpty(this.SessionCookie))
+        {
+            Console.WriteLine("It seems like there is no session cookie saved in the config.");
+            Console.WriteLine("Please enter one now in order to authentificate against the Advent of Code Server");
+
+            this.SessionCookie = Console.ReadLine();
+
+            if (string.Equals(this.SessionCookie, this.Config.ExitCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                return;
+            }
         }
 
         var availableYearsString = possibleYears
