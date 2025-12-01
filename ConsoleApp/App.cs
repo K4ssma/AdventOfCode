@@ -112,6 +112,28 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
                 return;
             }
 
+            var partInputPrompt =
+                "Please enter the number of the part of the daily challenge you want to solve.\r\n"
+                + "You can either solve the first or the second part.\r\n"
+                + "1, 2";
+            var choseFirstPart = this.GetValidUserInput(
+                partInputPrompt,
+                [true, false],
+                (inputString) =>
+                {
+                    return inputString switch
+                    {
+                        "1" => true,
+                        "2" => false,
+                        _ => default(bool?),
+                    };
+                });
+
+            if (choseFirstPart is null)
+            {
+                return;
+            }
+
             var clientHandler = new HttpClientHandler()
             {
                 CookieContainer = new(),
@@ -133,8 +155,6 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
             }
 
             var inputString = await response.Content.ReadAsStringAsync();
-
-            chosenDay = (byte)(chosenDay - 1);
         }
     }
 
