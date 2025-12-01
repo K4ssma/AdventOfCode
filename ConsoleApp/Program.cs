@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 /// </summary>
 internal static class Program
 {
-    private static readonly Dictionary<ushort, IAocDay[]> AocYears = [];
+    private static readonly Dictionary<ushort, IAocDay?[]> AocYears = [];
 
     private static void Main()
     {
