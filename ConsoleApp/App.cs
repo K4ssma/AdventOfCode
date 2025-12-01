@@ -1,5 +1,6 @@
 ﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
+using System.Net;
 using Kassma.AdventOfCode.Abstractions;
 
 /// <summary>
@@ -33,79 +34,108 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
     ///     Starts this app.
     ///     This method may run indefinetly.
     /// </summary>
-    public void Run()
+    /// <returns>
+    ///     Returns a <see cref="Task"/> which succeeds when the app finished running.
+    /// </returns>
+    public async Task Run()
     {
-        var possibleYears = this.AocYears
-            .Where((yearDictionary) => yearDictionary.Value.Length > 0)
-            .ToDictionary();
-
-        if (possibleYears.Count == 0)
+        while (true)
         {
-            Console.WriteLine("It seems like there are no solvers abailable :(");
-            return;
-        }
+            var possibleYears = this.AocYears
+                .Where((yearDictionary) => yearDictionary.Value.Length > 0)
+                .ToDictionary();
 
-        if (string.IsNullOrEmpty(this.SessionCookie))
-        {
-            Console.WriteLine("It seems like there is no session cookie saved in the config.");
-            Console.WriteLine("Please enter one now in order to authentificate against the Advent of Code Server");
+            if (possibleYears.Count == 0)
+            {
+                Console.WriteLine("It seems like there are no solvers abailable :(");
+                return;
+            }
 
-            this.SessionCookie = Console.ReadLine();
+            if (string.IsNullOrEmpty(this.SessionCookie))
+            {
+                Console.WriteLine(
+                    "Please enter your Advent of Code session cookie" +
+                    " in order to authentificate against the Advent of Code Server");
 
-            if (string.Equals(this.SessionCookie, this.Config.ExitCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                this.SessionCookie = Console.ReadLine();
+
+                if (string.Equals(this.SessionCookie, this.Config.ExitCode.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return;
+                }
+            }
+
+            var availableYearsString = possibleYears
+                .Select((yearDictionary) => yearDictionary.Key.ToString())
+                .Aggregate((curr, next) => curr + ", " + next);
+
+            var yearInputPrompt =
+                "Please choose the year of Advent of Code which challenges you want to solve.\r\n"
+                + "The following years have solvers available:\r\n"
+                + availableYearsString;
+
+            var possibleAnswers = possibleYears
+                .Select<KeyValuePair<ushort, IAocDay?[]>, ushort?>((yearDictionary) => yearDictionary.Key)
+                .ToArray();
+
+            var chosenYear = this.GetValidUserInput(
+                yearInputPrompt,
+                possibleAnswers,
+                (inputString) => ushort.TryParse(inputString, out var parsedInput) ? parsedInput : null);
+
+            if (chosenYear is null)
             {
                 return;
             }
+
+            var possibleDays = this.AocYears[chosenYear.Value]
+                .Select((aocDay, index) => aocDay is null ? default(byte?) : (byte)(index + 1))
+                .Where((index) => index is not null)
+                .ToArray();
+
+            var availableDaysString = possibleDays
+                .Select((index) => index.ToString())
+                .Aggregate((curr, next) => curr + ", " + next);
+
+            var dayInputPrompt =
+                $"Please choose the day of Advent of Code {chosenYear.Value} you want to solve.\r\n"
+                + "The following day have solvers available:\r\n"
+                + availableDaysString;
+
+            var chosenDay = this.GetValidUserInput(
+                dayInputPrompt,
+                possibleDays,
+                (inputString) => byte.TryParse(inputString, out var parsedInput) ? parsedInput : null);
+
+            if (chosenDay is null)
+            {
+                return;
+            }
+
+            var clientHandler = new HttpClientHandler()
+            {
+                CookieContainer = new(),
+            };
+
+            clientHandler.CookieContainer.Add(
+                new Uri(this.Config.BaseUrl),
+                new Cookie("session", this.SessionCookie));
+
+            var httpClient = new HttpClient(clientHandler);
+
+            var response = await httpClient.GetAsync($"{this.Config.BaseUrl}/{chosenYear}/day/{chosenDay}/input");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.SessionCookie = null;
+                Console.WriteLine("Could not retrieve input. Your session cookie may be wrong.");
+                continue;
+            }
+
+            var inputString = await response.Content.ReadAsStringAsync();
+
+            chosenDay = (byte)(chosenDay - 1);
         }
-
-        var availableYearsString = possibleYears
-            .Select((yearDictionary) => yearDictionary.Key.ToString())
-            .Aggregate((curr, next) => curr + ", " + next);
-
-        var yearInputPrompt =
-            "Please choose the year of Advent of Code which challenges you want to solve.\r\n"
-            + "The following years have solvers available:\r\n"
-            + availableYearsString;
-
-        var possibleAnswers = possibleYears
-            .Select<KeyValuePair<ushort, IAocDay?[]>, ushort?>((yearDictionary) => yearDictionary.Key)
-            .ToArray();
-
-        var chosenYear = this.GetValidUserInput(
-            yearInputPrompt,
-            possibleAnswers,
-            (inputString) => ushort.TryParse(inputString, out var parsedInput) ? parsedInput : null);
-
-        if (chosenYear is null)
-        {
-            return;
-        }
-
-        var possibleDays = this.AocYears[chosenYear.Value]
-            .Where((aocDay) => aocDay is not null)
-            .Select((_, index) => (byte?)(index + 1))
-            .ToArray();
-
-        var availableDaysString = possibleDays
-            .Select((index) => index.ToString())
-            .Aggregate((curr, next) => curr + ", " + next);
-
-        var dayInputPrompt =
-            $"Please choose the day of Advent of Code {chosenYear.Value} you want to solve.\r\n"
-            + "The following day have solvers available:\r\n"
-            + availableDaysString;
-
-        var chosenDay = this.GetValidUserInput(
-            dayInputPrompt,
-            possibleDays,
-            (inputString) => byte.TryParse(inputString, out var parsedInput) ? parsedInput : null);
-
-        if (chosenDay is null)
-        {
-            return;
-        }
-
-        chosenDay = (byte)(chosenDay - 1);
     }
 
     private T? GetValidUserInput<T>(string userInputPrompt, ReadOnlySpan<T> possibleAnswers, Func<string, T?> userInputTryParser)

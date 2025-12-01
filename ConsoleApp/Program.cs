@@ -10,7 +10,7 @@ internal static class Program
 {
     private static readonly Dictionary<ushort, IAocDay?[]> AocYears = [];
 
-    private static void Main()
+    private static async Task Main()
     {
         var config = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
@@ -28,6 +28,6 @@ internal static class Program
 
         var app = new App(uiConfig, sessionCookie, AocYears);
 
-        app.Run();
+        await app.Run();
     }
 }
