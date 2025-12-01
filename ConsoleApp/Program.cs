@@ -19,8 +19,8 @@ internal static class Program
             .Build();
 
         var uiConfig = config
-            .GetSection("UiConfig")
-            .Get<UiConfig>();
+            .GetSection("AppConfig")
+            .Get<AppConfig>();
 
         var sessionCookie = config.GetSection("AdventOfCode")["SessionCookie"];
 

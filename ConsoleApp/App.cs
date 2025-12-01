@@ -6,17 +6,17 @@ using Kassma.AdventOfCode.Abstractions;
 ///     App-class, manages interaction with the user through the console lets the user solve Advent of Code challenges.
 /// </summary>
 /// <param name="config">
-///     <see cref="UiConfig"/> which determines certain behaviour of this app.
+///     <see cref="AppConfig"/> which determines certain behaviour of this app.
 /// </param>
 /// <param name="aocYears">
 ///     Advent of Code challenge solvers grouped by their year and indexed by their day starting at index 0 = day 1.
 /// </param>
-internal sealed class App(UiConfig config, string? sessionCookie, Dictionary<ushort, IAocDay?[]> aocYears)
+internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<ushort, IAocDay?[]> aocYears)
 {
     /// <summary>
-    ///     Gets the <see cref="UiConfig"/> used by this app, which determines certain behaviour of this instance.
+    ///     Gets the <see cref="AppConfig"/> used by this app, which determines certain behaviour of this instance.
     /// </summary>
-    public UiConfig Config { get; init; } = config;
+    public AppConfig Config { get; init; } = config;
 
     /// <summary>
     ///     Gets the session cookie string for athentification against the advent of code website.
