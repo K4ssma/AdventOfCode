@@ -18,21 +18,7 @@ public sealed class Day01 : IAocDay
             StatusPercent = 0,
         });
 
-        var moveOperations = input
-            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
-            .Select((inputLine, index) =>
-            {
-                var isMovingRight = inputLine[0] switch
-                {
-                    'L' => false,
-                    'R' => true,
-                    _ => throw new FormatException($"Input contains invalid character '{inputLine[0]}' at line {index}"),
-                };
-
-                var moveAmount = int.Parse(inputLine[1..]);
-
-                return (isMovingRight, moveAmount);
-            });
+        var moveOperations = ParseInputString(input);
 
         progress.Report(new()
         {
@@ -71,6 +57,67 @@ public sealed class Day01 : IAocDay
     /// <inheritdoc/>
     public string SolvePart02(IProgress<ProgressStatus> progress, string input)
     {
-        throw new NotImplementedException();
+        progress.Report(new()
+        {
+            IsHeadStatus = true,
+            StatusMessage = "Reading input",
+            StatusPercent = 0,
+        });
+
+        var moveOperations = ParseInputString(input);
+
+        progress.Report(new()
+        {
+            IsHeadStatus = true,
+            StatusMessage = "SolvingTask",
+            StatusPercent = 50,
+        });
+
+        var currentPos = 50;
+        var zeroCount = 0;
+
+        foreach ((var isTurningRight, var turnAmount) in moveOperations)
+        {
+            currentPos = isTurningRight
+                ? currentPos + turnAmount
+                : currentPos - turnAmount;
+
+            if (currentPos == 0)
+            {
+                zeroCount++;
+                continue;
+            }
+
+            zeroCount += Math.Abs(currentPos / 100);
+            currentPos %= 100;
+        }
+
+        progress.Report(new()
+        {
+            IsHeadStatus = true,
+            StatusMessage = "Challenge solved",
+            StatusPercent = 100,
+        });
+
+        return $"Moved past zero {zeroCount} times";
+    }
+
+    private static IEnumerable<(bool IsTurningRight, int TurnAmount)> ParseInputString(string inputString)
+    {
+        return inputString
+            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
+            .Select((inputLine, index) =>
+            {
+                var isTurningRight = inputLine[0] switch
+                {
+                    'L' => false,
+                    'R' => true,
+                    _ => throw new FormatException($"Input contains invalid character '{inputLine[0]}' at line {index}"),
+                };
+
+                var turnAmount = int.Parse(inputLine[1..]);
+
+                return (isTurningRight, turnAmount);
+            });
     }
 }
