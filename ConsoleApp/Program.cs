@@ -1,6 +1,7 @@
 ﻿namespace Kassma.AdventOfCode.ConsoleApp;
 
 using Kassma.AdventOfCode.Abstractions;
+using Kassma.AdventOfCode.Years.Year2025;
 using Microsoft.Extensions.Configuration;
 
 /// <summary>
@@ -8,7 +9,10 @@ using Microsoft.Extensions.Configuration;
 /// </summary>
 internal static class Program
 {
-    private static readonly Dictionary<ushort, IAocDay?[]> AocYears = [];
+    private static readonly Dictionary<ushort, IAocDay?[]> AocYears = new()
+    {
+        [2025] = [new Day01()],
+    };
 
     private static async Task Main()
     {
