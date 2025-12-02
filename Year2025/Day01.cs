@@ -73,23 +73,39 @@ public sealed class Day01 : IAocDay
             StatusPercent = 50,
         });
 
-        var currentPos = 50;
+        var currPos = 50;
         var zeroCount = 0;
 
         foreach ((var isTurningRight, var turnAmount) in moveOperations)
         {
-            currentPos = isTurningRight
-                ? currentPos + turnAmount
-                : currentPos - turnAmount;
+            zeroCount += turnAmount / 100;
 
-            if (currentPos == 0)
+            var remainingTurnAmount = turnAmount % 100;
+
+            if ((isTurningRight
+                    && 100 - currPos < remainingTurnAmount
+                    && currPos != 0)
+                || (!isTurningRight &&
+                    currPos < remainingTurnAmount
+                    && currPos != 0))
             {
                 zeroCount++;
-                continue;
             }
 
-            zeroCount += Math.Abs(currentPos / 100);
-            currentPos %= 100;
+            currPos = isTurningRight
+                ? currPos + remainingTurnAmount
+                : currPos - remainingTurnAmount;
+
+            currPos %= 100;
+
+            if (currPos == 0)
+            {
+                zeroCount++;
+            }
+            else if (currPos < 0)
+            {
+                currPos = 100 + currPos;
+            }
         }
 
         progress.Report(new()

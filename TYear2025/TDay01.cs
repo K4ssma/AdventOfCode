@@ -37,4 +37,19 @@ internal sealed class TDay01
 
         Assert.That(parsedResult, Is.EqualTo(3));
     }
+
+    /// <summary>
+    ///     Unit Test for the <see cref="Day01.SolvePart02(IProgress{ProgressStatus}, string)"/> method.
+    /// </summary>
+    [Test]
+    public void TSolvePart02()
+    {
+        var progressMock = new Mock<IProgress<ProgressStatus>>();
+        var day01Solver = new Day01();
+
+        var result = day01Solver.SolvePart02(progressMock.Object, TestInput);
+        var parsedResult = int.Parse(Regex.Match(result, @"\d").Value);
+
+        Assert.That(parsedResult, Is.EqualTo(6));
+    }
 }
