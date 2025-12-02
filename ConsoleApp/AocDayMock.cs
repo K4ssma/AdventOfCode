@@ -39,9 +39,9 @@ internal sealed class AocDayMock : IAocDay
             StatusPercent = 0,
         });
 
-        for (var i = 0; i < maxSubTask; i++)
+        for (var i = 1; i <= maxSubTask; i++)
         {
-            Thread.Sleep(random.Next(1500));
+            Thread.Sleep(random.Next(500, 1500));
 
             progress.Report(new()
             {
