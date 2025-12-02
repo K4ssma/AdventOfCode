@@ -24,7 +24,7 @@ public sealed class Day02 : IAocDay
             {
                 var rangeParts = rangeString.Split('-');
 
-                return (int.Parse(rangeParts[0]), int.Parse(rangeParts[1]));
+                return (ulong.Parse(rangeParts[0]), ulong.Parse(rangeParts[1]));
             })
             .ToArray();
 
@@ -60,15 +60,17 @@ public sealed class Day02 : IAocDay
                     }
 
                     var digitsPerGroup = digits / splitGroups;
-                    var compareNumber = id / (int)Math.Pow(10, digitsPerGroup * (splitGroups - 1));
+                    var compareNumber = id / (ulong)Math.Pow(10, digitsPerGroup * (splitGroups - 1));
                     var isPattern = true;
 
                     for (var group = 0; group < splitGroups - 1; group++)
                     {
-                        var leftSideMask = id / (int)Math.Pow(10, digitsPerGroup * (group + 1));
+                        var leftSideMask = id / (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
+                        leftSideMask *= (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
+
                         var rightSideMask = group == 0
                             ? 0
-                            : id / (int)Math.Pow(10, digitsPerGroup * (group - 1));
+                            : id / (ulong)Math.Pow(10, digitsPerGroup * (group - 1));
 
                         if (id - leftSideMask - rightSideMask != compareNumber)
                         {
@@ -79,7 +81,7 @@ public sealed class Day02 : IAocDay
 
                     if (isPattern)
                     {
-                        sum += (ulong)id;
+                        sum += id;
                         break;
                     }
                 }
