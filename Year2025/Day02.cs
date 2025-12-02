@@ -123,11 +123,6 @@ public sealed class Day02 : IAocDay
             {
                 var digits = (int)Math.Log10(id) + 1;
 
-                if (digits % 2 != 0)
-                {
-                    continue;
-                }
-
                 for (var splitGroups = 2; splitGroups <= digits; splitGroups++)
                 {
                     if (digits % splitGroups != 0)
@@ -144,11 +139,9 @@ public sealed class Day02 : IAocDay
                         var leftSideMask = id / (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
                         leftSideMask *= (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
 
-                        var rightSideMask = group == 0
-                            ? 0
-                            : id / (ulong)Math.Pow(10, digitsPerGroup * (group - 1));
+                        var number = (id - leftSideMask) / (ulong)Math.Pow(10, digitsPerGroup * group);
 
-                        if (id - leftSideMask - rightSideMask != compareNumber)
+                        if (number != compareNumber)
                         {
                             isPattern = false;
                             break;
