@@ -171,50 +171,28 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
                     : this.AocYears[chosenYear.Value][chosenDay.Value - 1]!.SolvePart02(progress, inputString);
             });
 
-            byte currentHeadStatus = 0;
-            byte currProgressAmount = 0;
-            byte spinnerPhase = 0;
-            var stringBuilder = new StringBuilder();
+            var spinnerPhase = 0;
+            var completedHeadStates = 0;
+            var completedStates = 0;
+            var currCompletionPercent = 0;
+
+            Console.Clear();
+
+            var stringBuilder = new StringBuilder("\r\n[");
+            for (var i = 0; i < this.Config.ProgressBarWidth; i++)
+            {
+                stringBuilder.Append('.');
+            }
+
+            stringBuilder.Append("] |   0%");
+
+            Console.WriteLine(stringBuilder.ToString());
 
             while (!solvingTask.IsCompleted || statusUpdates.Count > 0)
             {
-                while (statusUpdates.Count > 0)
-                {
-                    var statusUpdate = statusUpdates.Dequeue();
+                Thread.Sleep(100);
 
-                    if (statusUpdate.IsHeadStatus)
-                    {
-                        stringBuilder.AppendLine($"[{currentHeadStatus}] {statusUpdate.StatusMessage}");
-                        currentHeadStatus++;
-                    }
-                    else
-                    {
-                        stringBuilder.AppendLine($"    - {statusUpdate.StatusMessage}");
-                    }
-
-                    currProgressAmount = statusUpdate.StatusPercent;
-                }
-
-                Console.Clear();
-                Console.Write(stringBuilder.ToString());
-                Console.WriteLine();
-
-                var progressBarBuilder = new StringBuilder("[");
-                var completedTens = currProgressAmount / 10;
-
-                for (var i = 0; i < completedTens; i++)
-                {
-                    progressBarBuilder.Append('#');
-                }
-
-                for (var i = 0; i < 10 - completedTens; i++)
-                {
-                    progressBarBuilder.Append('.');
-                }
-
-                progressBarBuilder.Append("] ");
-
-                var spinner = spinnerPhase switch
+                var nextSpinner = spinnerPhase switch
                 {
                     0 => '|',
                     1 => '/',
@@ -223,13 +201,62 @@ internal sealed class App(AppConfig config, string? sessionCookie, Dictionary<us
                     _ => 'e',
                 };
 
-                spinnerPhase = (byte)((spinnerPhase + 1) % 4);
+                spinnerPhase = (spinnerPhase + 1) % 4;
 
-                progressBarBuilder.Append($" {spinner} {currProgressAmount.ToString().PadLeft(3)}%");
+                if (statusUpdates.Count == 0)
+                {
+                    Console.SetCursorPosition(
+                        3 + this.Config.ProgressBarWidth,
+                        completedStates == 0 ? 0 : completedStates + 1);
+                    Console.Write(nextSpinner);
+                    Console.SetCursorPosition(0, completedStates + 2);
 
-                Console.WriteLine(progressBarBuilder.ToString());
+                    continue;
+                }
 
-                Thread.Sleep(500);
+                while (statusUpdates.Count > 0)
+                {
+                    var status = statusUpdates.Dequeue();
+
+                    Console.SetCursorPosition(0, completedStates);
+                    var statusMessage = status.IsHeadStatus
+                        ? $"[{completedHeadStates + 1}] {status.StatusMessage}"
+                        : $"    - {status.StatusMessage}";
+
+                    if (status.IsHeadStatus)
+                    {
+                        completedHeadStates++;
+                    }
+
+                    completedStates++;
+                    currCompletionPercent = status.StatusPercent;
+
+                    Console.WriteLine(statusMessage.PadRight(Console.WindowWidth));
+                }
+
+                Console.SetCursorPosition(0, completedStates);
+                Console.WriteLine(string.Empty.PadRight(Console.WindowWidth));
+
+                var completedPercentBits = currCompletionPercent / (100 / this.Config.ProgressBarWidth);
+
+                stringBuilder.Clear();
+                stringBuilder.Append('[');
+
+                for (var i = 0; i < completedPercentBits; i++)
+                {
+                    stringBuilder.Append('#');
+                }
+
+                for (var i = 0; i < this.Config.ProgressBarWidth - completedPercentBits; i++)
+                {
+                    stringBuilder.Append('.');
+                }
+
+                stringBuilder.Append($"] {nextSpinner} {currCompletionPercent.ToString().PadLeft(3)}%");
+
+                Console.SetCursorPosition(0, completedStates == 0 ? 0 : completedStates + 1);
+                Console.WriteLine(stringBuilder.ToString().PadRight(Console.WindowWidth));
+                Console.SetCursorPosition(0, completedStates + 2);
             }
 
             Console.WriteLine("The solution is:");
