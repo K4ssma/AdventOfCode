@@ -52,38 +52,19 @@ public sealed class Day02 : IAocDay
             {
                 var digits = (int)Math.Log10(id) + 1;
 
-                for (var splitGroups = 2; splitGroups <= digits; splitGroups++)
-                {
-                    if (digits % splitGroups != 0)
+                if (digits % 2 != 0)
                     {
                         continue;
                     }
 
-                    var digitsPerGroup = digits / splitGroups;
-                    var compareNumber = id / (ulong)Math.Pow(10, digitsPerGroup * (splitGroups - 1));
-                    var isPattern = true;
+                var firstGroup = id / (ulong)Math.Pow(10, digits / 2);
+                var leftSideMask = firstGroup * (ulong)Math.Pow(10, digits / 2);
 
-                    for (var group = 0; group < splitGroups - 1; group++)
-                    {
-                        var leftSideMask = id / (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
-                        leftSideMask *= (ulong)Math.Pow(10, digitsPerGroup * (group + 1));
+                var secondGroup = id - leftSideMask;
 
-                        var rightSideMask = group == 0
-                            ? 0
-                            : id / (ulong)Math.Pow(10, digitsPerGroup * (group - 1));
-
-                        if (id - leftSideMask - rightSideMask != compareNumber)
-                        {
-                            isPattern = false;
-                            break;
-                        }
-                    }
-
-                    if (isPattern)
+                if (firstGroup == secondGroup)
                     {
                         sum += id;
-                        break;
-                    }
                 }
             }
         }
