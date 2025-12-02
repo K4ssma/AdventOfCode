@@ -4,6 +4,9 @@
     <File Path="Global.ruleset" />
     <File Path="stylecop.json" />
   </Folder>
+  <Folder Name="/Years/">
+    <Project Path="Year2025/Year2025.csproj" Id="84309398-3d90-44ca-9e0d-aeecf55d7d9e" />
+  </Folder>
   <Project Path="Abstractions/Abstractions.csproj" Id="1dce7498-dd5f-4d87-bbcb-9a1db1c78609" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />
 </Solution>
