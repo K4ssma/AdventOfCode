@@ -11,7 +11,7 @@ internal static class Program
 {
     private static readonly Dictionary<ushort, IAocDay?[]> AocYears = new()
     {
-        [2025] = [new Day01()],
+        [2025] = [new Day01(), new Day02()],
     };
 
     private static async Task Main()
