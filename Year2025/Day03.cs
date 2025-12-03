@@ -50,6 +50,13 @@ public sealed class Day03 : IAocDay
             });
         }
 
+        progress.Report(new()
+        {
+            IsHeadStatus = true,
+            StatusMessage = "Done",
+            StatusPercent = 100,
+        });
+
         return sum.ToString();
     }
 
