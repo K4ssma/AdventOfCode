@@ -11,13 +11,6 @@ public sealed class Day02 : IAocDay
     /// <inheritdoc/>
     public string SolvePart01(IProgress<ProgressStatus> progress, string input)
     {
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Parsing input",
-            StatusPercent = 0,
-        });
-
         var ranges = input
             .Split(',')
             .Select((rangeString) =>
@@ -25,29 +18,12 @@ public sealed class Day02 : IAocDay
                 var rangeParts = rangeString.Split('-');
 
                 return (ulong.Parse(rangeParts[0]), ulong.Parse(rangeParts[1]));
-            })
-            .ToArray();
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = $"Solving process (checking {ranges.Length} ranges)",
-            StatusPercent = 0,
-        });
+            });
 
         var sum = 0ul;
 
-        for (var i = 0; i < ranges.Length; i++)
+        foreach ((var min, var max) in ranges)
         {
-            (var min, var max) = ranges[i];
-
-            progress.Report(new()
-            {
-                IsHeadStatus = false,
-                StatusMessage = $"Checking range {min}-{max}",
-                StatusPercent = (byte)(i * (100 / ranges.Length)),
-            });
-
             for (var id = min; id <= max; id++)
             {
                 var digits = (int)Math.Log10(id) + 1;
@@ -69,26 +45,12 @@ public sealed class Day02 : IAocDay
             }
         }
 
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Done",
-            StatusPercent = 100,
-        });
-
         return sum.ToString();
     }
 
     /// <inheritdoc/>
     public string SolvePart02(IProgress<ProgressStatus> progress, string input)
     {
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Parsing input",
-            StatusPercent = 0,
-        });
-
         var ranges = input
             .Split(',')
             .Select((rangeString) =>
@@ -96,29 +58,12 @@ public sealed class Day02 : IAocDay
                 var rangeParts = rangeString.Split('-');
 
                 return (ulong.Parse(rangeParts[0]), ulong.Parse(rangeParts[1]));
-            })
-            .ToArray();
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = $"Solving process (checking {ranges.Length} ranges)",
-            StatusPercent = 0,
-        });
+            });
 
         var sum = 0ul;
 
-        for (var i = 0; i < ranges.Length; i++)
+        foreach ((var min, var max) in ranges)
         {
-            (var min, var max) = ranges[i];
-
-            progress.Report(new()
-            {
-                IsHeadStatus = false,
-                StatusMessage = $"Checking range {min}-{max}",
-                StatusPercent = (byte)(i * (100 / ranges.Length)),
-            });
-
             for (var id = min; id <= max; id++)
             {
                 var digits = (int)Math.Log10(id) + 1;
@@ -156,13 +101,6 @@ public sealed class Day02 : IAocDay
                 }
             }
         }
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Done",
-            StatusPercent = 100,
-        });
 
         return sum.ToString();
     }

@@ -11,21 +11,7 @@ public sealed class Day01 : IAocDay
     /// <inheritdoc/>
     public string SolvePart01(IProgress<ProgressStatus> progress, string input)
     {
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Reading input",
-            StatusPercent = 0,
-        });
-
         var moveOperations = ParseInputString(input);
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "SolvingTask",
-            StatusPercent = 50,
-        });
 
         var currentPos = 50;
         var zeroCount = 0;
@@ -44,34 +30,13 @@ public sealed class Day01 : IAocDay
             }
         }
 
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Challenge solved",
-            StatusPercent = 100,
-        });
-
-        return $"Stopped {zeroCount} times at zero";
+        return zeroCount.ToString();
     }
 
     /// <inheritdoc/>
     public string SolvePart02(IProgress<ProgressStatus> progress, string input)
     {
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Reading input",
-            StatusPercent = 0,
-        });
-
         var moveOperations = ParseInputString(input);
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "SolvingTask",
-            StatusPercent = 50,
-        });
 
         var currPos = 50;
         var zeroCount = 0;
@@ -107,13 +72,6 @@ public sealed class Day01 : IAocDay
                 currPos = 100 + currPos;
             }
         }
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Challenge solved",
-            StatusPercent = 100,
-        });
 
         return $"Moved past zero {zeroCount} times";
     }

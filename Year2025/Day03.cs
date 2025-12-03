@@ -11,39 +11,22 @@ public sealed class Day03 : IAocDay
     /// <inheritdoc/>
     public string SolvePart01(IProgress<ProgressStatus> progress, string input)
     {
-        return GetMaxJoltage(progress, input, 2).ToString();
+        return GetMaxJoltage(input, 2).ToString();
     }
 
     /// <inheritdoc/>
     public string SolvePart02(IProgress<ProgressStatus> progress, string input)
     {
-        return GetMaxJoltage(progress, input, 12).ToString();
+        return GetMaxJoltage(input, 12).ToString();
     }
 
-    private static ulong GetMaxJoltage(IProgress<ProgressStatus> progress, string input, int batteriesPerBank)
+    private static ulong GetMaxJoltage(string input, int batteriesPerBank)
     {
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Parsing input",
-            StatusPercent = 0,
-        });
-
         var banks = input.Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries);
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Solving",
-            StatusPercent = 0,
-        });
-
         var sum = 0ul;
 
-        for (var bankIndex = 0; bankIndex < banks.Length; bankIndex++)
+        foreach (var bank in banks)
         {
-            var bank = banks[bankIndex];
-
             if (bank.Length < batteriesPerBank)
             {
                 throw new ArgumentException(
@@ -80,21 +63,7 @@ public sealed class Day03 : IAocDay
 
                 previousBatteryIndex = highestDigitIndex!.Value;
             }
-
-            progress.Report(new()
-            {
-                IsHeadStatus = false,
-                StatusMessage = $"Solved bank {bankIndex + 1}",
-                StatusPercent = (byte)((bankIndex + 1) * (100 / banks.Length)),
-            });
         }
-
-        progress.Report(new()
-        {
-            IsHeadStatus = true,
-            StatusMessage = "Done",
-            StatusPercent = 100,
-        });
 
         return sum;
     }
