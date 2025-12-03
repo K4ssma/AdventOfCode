@@ -61,27 +61,26 @@ public sealed class Day03 : IAocDay
 
     private static int GetFirstHighestDigitIndex(string numberString, int startIndex, int endIndex, out int highestDigit)
     {
-        var highestDigitIndex = startIndex;
-        highestDigit = int.Parse(numberString[startIndex].ToString());
+        highestDigit = 0;
+        var highestDigitIndex = default(int?);
+        var currIndex = startIndex;
 
-        for (var i = startIndex + 1; i < endIndex; i++)
+        do
         {
-            var parsedDigit = int.Parse(numberString[i].ToString());
+            var parsedDigit = int.Parse(numberString[currIndex].ToString());
 
-            if (parsedDigit <= highestDigit)
+            if (highestDigitIndex is null
+                || parsedDigit > highestDigit)
             {
-                continue;
+                highestDigit = parsedDigit;
+                highestDigitIndex = currIndex;
             }
 
-            highestDigit = parsedDigit;
-            highestDigitIndex = i;
-
-            if (highestDigit == 9)
-            {
-                break;
-            }
+            currIndex++;
         }
+        while (currIndex < endIndex
+            && highestDigit != 9);
 
-        return highestDigitIndex;
+        return highestDigitIndex.Value;
     }
 }
