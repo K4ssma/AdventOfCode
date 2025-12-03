@@ -11,7 +11,9 @@ public sealed class Day01 : IAocDay
     /// <inheritdoc/>
     public string SolvePart01(IProgress<ProgressStatus> progress, string input)
     {
-        var moveOperations = ParseInputString(input);
+        var moveOperations = input
+            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
+            .Select((inputLine, index) => (inputLine[0] == 'R', int.Parse(inputLine[1..])));
 
         var currentPos = 50;
         var zeroCount = 0;
@@ -36,7 +38,9 @@ public sealed class Day01 : IAocDay
     /// <inheritdoc/>
     public string SolvePart02(IProgress<ProgressStatus> progress, string input)
     {
-        var moveOperations = ParseInputString(input);
+        var moveOperations = input
+            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
+            .Select((inputLine, index) => (inputLine[0] == 'R', int.Parse(inputLine[1..])));
 
         var currPos = 50;
         var zeroCount = 0;
@@ -74,24 +78,5 @@ public sealed class Day01 : IAocDay
         }
 
         return $"Moved past zero {zeroCount} times";
-    }
-
-    private static IEnumerable<(bool IsTurningRight, int TurnAmount)> ParseInputString(string inputString)
-    {
-        return inputString
-            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
-            .Select((inputLine, index) =>
-            {
-                var isTurningRight = inputLine[0] switch
-                {
-                    'L' => false,
-                    'R' => true,
-                    _ => throw new FormatException($"Input contains invalid character '{inputLine[0]}' at line {index}"),
-                };
-
-                var turnAmount = int.Parse(inputLine[1..]);
-
-                return (isTurningRight, turnAmount);
-            });
     }
 }
