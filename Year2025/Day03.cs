@@ -27,12 +27,6 @@ public sealed class Day03 : IAocDay
 
         foreach (var bank in banks)
         {
-            if (bank.Length < batteriesPerBank)
-            {
-                throw new ArgumentException(
-                    $"Bank \"{bank}\" does not have enough batteries to activate {batteriesPerBank} batteries");
-            }
-
             var previousBatteryIndex = 0;
 
             for (var battery = 0; battery < batteriesPerBank; battery++)
