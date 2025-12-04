@@ -35,4 +35,18 @@ internal sealed class TDay04
 
         Assert.That(result, Is.EqualTo(13));
     }
+
+    /// <summary>
+    ///     Unit Test for <see cref="Day04.SolvePart02(IProgress{ProgressStatus}, string)"/> method.
+    /// </summary>
+    [Test]
+    public void TSolvePart02()
+    {
+        var progressMock = new Mock<Progress<ProgressStatus>>();
+        var aocDay04 = new Day04();
+
+        var result = int.Parse(aocDay04.SolvePart02(progressMock.Object, TestInput));
+
+        Assert.That(result, Is.EqualTo(43));
+    }
 }
