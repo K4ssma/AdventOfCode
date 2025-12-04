@@ -19,6 +19,11 @@ public sealed class Day04 : IAocDay
         {
             for (var x = 0; x < lines[y].Length; x++)
             {
+                if (lines[y][x] != '@')
+                {
+                    continue;
+                }
+
                 var neighbourCount = 0;
 
                 if (x != 0)
