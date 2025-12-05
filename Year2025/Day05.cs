@@ -11,22 +11,7 @@ public sealed class Day05 : IAocDay
     /// <inheritdoc/>
     public string SolvePart01(IProgress<ProgressStatus> progress, string input)
     {
-        var (ranges, ids) = ParseInput(input);
-
-        return ids
-            .Count((id) => ranges.Any((range) => id >= range.Min && id <= range.Max))
-            .ToString();
-    }
-
-    /// <inheritdoc/>
-    public string SolvePart02(IProgress<ProgressStatus> progress, string input)
-    {
-        throw new NotImplementedException();
-    }
-
-    private static ((ulong Min, ulong Max)[] Ranges, ulong[] Ids) ParseInput(string inputString)
-    {
-        var parts = inputString.Split(["\r\n\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries);
+        var parts = input.Split(["\r\n\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries);
 
         var ranges = parts[0]
             .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
@@ -40,6 +25,14 @@ public sealed class Day05 : IAocDay
             .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
             .Select((idString) => ulong.Parse(idString));
 
-        return (ranges.ToArray(), ids.ToArray());
+        return ids
+            .Count((id) => ranges.Any((range) => id >= range.Min && id <= range.Max))
+            .ToString();
+    }
+
+    /// <inheritdoc/>
+    public string SolvePart02(IProgress<ProgressStatus> progress, string input)
+    {
+        throw new NotImplementedException();
     }
 }
