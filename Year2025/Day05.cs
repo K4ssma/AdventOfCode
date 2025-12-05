@@ -36,7 +36,7 @@ public sealed class Day05 : IAocDay
     {
         var ranges = input
             .Split(["\r\n\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries)[0]
-            .Split(["\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries)
+            .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
             .Select((rangeString) =>
             {
                 var rangeParts = rangeString.Split('-');
