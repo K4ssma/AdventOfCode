@@ -24,7 +24,7 @@ public sealed class Day05 : IAocDay
         throw new NotImplementedException();
     }
 
-    private static ((int Min, int Max)[] Ranges, int[] Ids) ParseInput(string inputString)
+    private static ((ulong Min, ulong Max)[] Ranges, ulong[] Ids) ParseInput(string inputString)
     {
         var parts = inputString.Split(["\r\n\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries);
 
@@ -33,12 +33,12 @@ public sealed class Day05 : IAocDay
             .Select((rangeString) =>
             {
                 var rangeParts = rangeString.Split('-');
-                return (Min: int.Parse(rangeParts[0]), Max: int.Parse(rangeParts[1]));
+                return (Min: ulong.Parse(rangeParts[0]), Max: ulong.Parse(rangeParts[1]));
             });
 
         var ids = parts[1]
             .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
-            .Select((idString) => int.Parse(idString));
+            .Select((idString) => ulong.Parse(idString));
 
         return (ranges.ToArray(), ids.ToArray());
     }
